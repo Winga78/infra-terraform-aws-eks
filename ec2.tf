@@ -5,11 +5,11 @@ resource "aws_instance" "esgi_instance" {
   tags = {
     Name = "EsgiBlog"
   }
- vpc_security_group_ids= [aws_security_group.allow_tls.id]
- associate_public_ip_address = true
+  vpc_security_group_ids      = [aws_security_group.allow_tls.id]
+  associate_public_ip_address = true
   root_block_device {
-   volume_type           = "gp2"
-   volume_size           = "8"
-   delete_on_termination = true
- }
+    volume_type           = "gp2"
+    volume_size           = "8"
+    delete_on_termination = true
+  }
 }

@@ -3,14 +3,14 @@ resource "aws_eks_cluster" "eks" {
   role_arn = aws_iam_role.eks_role.arn
 
   vpc_config {
-    subnet_ids = aws_subnet.public_subnets[*].id
+    subnet_ids         = aws_subnet.public_subnets[*].id
     security_group_ids = [data.aws_security_group.eks_sg.id]
   }
 
-  depends_on = [aws_iam_role_policy_attachment.eks_policy, 
-  aws_iam_role_policy_attachment.node_policy,
-  aws_iam_role_policy_attachment.eks_cni_policy,
-  aws_iam_role_policy_attachment.ecs_registry_policy,
+  depends_on = [aws_iam_role_policy_attachment.eks_policy,
+    aws_iam_role_policy_attachment.node_policy,
+    aws_iam_role_policy_attachment.eks_cni_policy,
+    aws_iam_role_policy_attachment.ecs_registry_policy,
   aws_iam_role_policy_attachment.cluster-AmazonEKSServicePolicy]
 }
 
@@ -32,7 +32,7 @@ resource "aws_eks_node_group" "eks_nodes" {
 
 
 resource "aws_iam_role" "eks_role" {
-  name               = "EKS_Students"
+  name = "EKS_Students"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -79,17 +79,17 @@ resource "aws_iam_role_policy_attachment" "cluster-AmazonEKSServicePolicy" {
 resource "aws_eks_addon" "kube_proxy" {
   cluster_name = aws_eks_cluster.eks.name
   addon_name   = "kube-proxy"
-  depends_on = [aws_eks_node_group.eks_nodes]
+  depends_on   = [aws_eks_node_group.eks_nodes]
 }
 
 resource "aws_eks_addon" "core_dns" {
   cluster_name = aws_eks_cluster.eks.name
   addon_name   = "coredns"
-  depends_on = [aws_eks_node_group.eks_nodes]
+  depends_on   = [aws_eks_node_group.eks_nodes]
 }
 
 resource "aws_eks_addon" "vpc_cni" {
   cluster_name = aws_eks_cluster.eks.name
   addon_name   = "vpc-cni"
-  depends_on = [aws_eks_node_group.eks_nodes]
+  depends_on   = [aws_eks_node_group.eks_nodes]
 }

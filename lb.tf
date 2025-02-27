@@ -3,7 +3,7 @@ resource "aws_lb" "eks_alb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.allow_tls.id]
-  subnets           = aws_subnet.public_subnets[*].id
+  subnets            = aws_subnet.public_subnets[*].id
 }
 
 resource "aws_lb_target_group" "eks_target_group" {
